@@ -103,7 +103,7 @@ def create_app(test_config=None):
         question = Question.query.filter(Question.id == id).one_or_none()
 
         if question is None:
-            abort(404)
+            abort(422)
 
         try:
             Question.delete(question)
@@ -137,10 +137,13 @@ def create_app(test_config=None):
         new_difficulty = body['difficulty']
         new_category = body['category']
 
-        question = Question(new_question, new_answer,
-                            new_category, new_difficulty)
-
         try:
+            question = Question(
+                new_question, 
+                new_answer,
+                new_category, 
+                new_difficulty
+            )
             question.insert()
             current_questions = paginate_questions(request, Question.query.all())
         except:
