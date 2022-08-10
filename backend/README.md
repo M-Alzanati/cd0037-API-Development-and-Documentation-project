@@ -71,7 +71,7 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
-### Documentation Example
+### Documentation
 
 `GET '/api/v1.0/categories'`
 
@@ -87,6 +87,204 @@ You will need to provide detailed documentation of your API endpoints including 
   "4": "History",
   "5": "Entertainment",
   "6": "Sports"
+}
+```
+
+`GET '/api/v1.0/questions'`
+
+- Fetches questions paginated as 10 per page
+- Request Arguments: None
+- Returns: An object with a list of `questions`, and a dictionary of `categories`.
+
+```json
+{
+    "success": true,
+    "questions": [
+      {
+        "answer": "Apollo 13", 
+        "category": 5, 
+        "difficulty": 4, 
+        "id": 2, 
+        "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+      }, 
+      {
+        "answer": "Tom Cruise", 
+        "category": 5, 
+        "difficulty": 4, 
+        "id": 4, 
+        "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+      }, 
+    ],
+    "total_questions": 2,
+    "categories": {
+      "1": "Science", 
+      "2": "Art", 
+      "3": "Geography", 
+      "4": "History", 
+      "5": "Entertainment", 
+      "6": "Sports"
+  }
+}
+```
+
+`DELETE /api/v1.0/questions/<question_id></question_id>`
+
+- Delete question by id
+- Request Arguments: `question_id`
+- Returns: An object with `deleted` which is the deleted question id, list of current `questions` that still exist in database, and `total_questions`.
+
+```json
+{
+    "success": true,
+    "questions": [
+      {
+        "answer": "Apollo 13", 
+        "category": 5, 
+        "difficulty": 4, 
+        "id": 2, 
+        "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+      }, 
+      {
+        "answer": "Tom Cruise", 
+        "category": 5, 
+        "difficulty": 4, 
+        "id": 4, 
+        "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+      }, 
+    ],
+    "total_questions": 2,
+    "deleted": question_id
+}
+```
+
+`POST /api/v1.0/questions`
+
+- Create new question
+- Body:
+
+```json
+  {
+    "question": "What's your name ?",
+    "answer": "Mohamed",
+    "difficulty": 1,
+    "category": 2
+  }
+```
+
+- Returns: An object of all `questions` with `created` question id
+
+```json
+{
+    "success": true,
+    "created": 12,
+    "questions": [
+        {
+          "answer": "Tom Cruise", 
+            "category": 5, 
+            "difficulty": 4, 
+            "id": 4, 
+            "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+        }, 
+        {
+          "question": "What's your name ?",
+          "answer": "Mohamed",
+          "difficulty": 1,
+          "category": 2,
+          "id": 12
+        }
+    ],
+    "total_questions": 2
+}
+```
+
+`POST /api/v1.0/questions/search`
+
+- Search for a question
+- Body:
+
+```json
+{
+  "searchTerm": "movie"
+}
+```
+
+- Returns:
+
+```json
+{
+    "questions": [
+        {
+          "answer": "Tom Cruise", 
+            "category": 5, 
+            "difficulty": 4, 
+            "id": 4, 
+            "question": "What's your favorite movie?"
+        }, 
+        {
+          "question": "What's your best movie start ?",
+          "answer": "Mohamed",
+          "difficulty": 1,
+          "category": 2,
+          "id": 12
+        }
+    ],
+    "totalQuestions": 2,
+    "currentCategory": 5,
+}
+```
+
+`GET /api/v1.0/categories/<id>/questions`
+
+- Get questions by category id
+- Request Arguments: category id
+- Returns: list of questions
+
+```json
+{
+      "questions": [
+        {
+          "answer": "Tom Cruise", 
+            "category": 5, 
+            "difficulty": 4, 
+            "id": 4, 
+            "question": "What's your favorite movie?"
+        }, 
+        {
+          "question": "What's your best movie start ?",
+          "answer": "Mohamed",
+          "difficulty": 1,
+          "category": 5,
+          "id": 12
+        }
+    ],
+    "totalQuestions": 2,
+}
+```
+
+`POST /api/v1.0/quizzes`
+
+- Get random question
+- Request Body: Pass previously selected questions with category id
+
+```json
+{
+  "previous_questions": [12, 2, 3],
+  "quiz_category": 1
+}
+```
+
+- Returns: Randomly selected question
+
+```json
+{
+      "question":
+        {
+          "answer": "Tom Cruise", 
+            "category": 5, 
+            "difficulty": 4, 
+            "id": 4, 
+            "question": "What's your favorite movie?"
+        }
 }
 ```
 

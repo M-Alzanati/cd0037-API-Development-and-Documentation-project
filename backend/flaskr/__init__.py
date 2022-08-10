@@ -82,10 +82,6 @@ def create_app(test_config=None):
 
         selected_questions = paginate_questions(request, questions)
 
-        selected_category_ids = list(
-            set(map(lambda item: item['category'], selected_questions))
-        )
-
         if (len(selected_questions) == 0):
             abort(404)
 
@@ -146,12 +142,16 @@ def create_app(test_config=None):
 
         try:
             question.insert()
+            current_questions = paginate_questions(request, Question.query.all())
         except:
             print(sys.exc_info())
             abort(422)
         finally:
             return jsonify({
-                'success': True
+                'success': True,
+                'created': question.id,
+                'questions': current_questions,
+                'total_questions': len(current_questions)
             })
 
     """
