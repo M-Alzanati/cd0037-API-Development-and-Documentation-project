@@ -52,7 +52,7 @@ def create_app(test_config=None):
     TODO: Create an endpoint to handle GET requests
     for all available categories.
     """
-    @app.route('/categories')
+    @app.route('/api/v1.0/categories')
     def get_categories():
         categories = Category.query.all()
 
@@ -75,7 +75,7 @@ def create_app(test_config=None):
     ten questions per page and pagination at the bottom of the screen for three pages.
     Clicking on the page numbers should update the questions.
     """
-    @app.route('/questions')
+    @app.route('/api/v1.0/questions')
     def get_questions():
         questions = Question.query.all()
         categories = Category.query.all()
@@ -102,7 +102,7 @@ def create_app(test_config=None):
     TEST: When you click the trash icon next to a question, the question will be removed.
     This removal will persist in the database and when you refresh the page.
     """
-    @app.route('/questions/<int:id>', methods=['DELETE'])
+    @app.route('/api/v1.0/questions/<int:id>', methods=['DELETE'])
     def delete_questions(id):
         question = Question.query.filter(Question.id == id).one_or_none()
 
@@ -133,7 +133,7 @@ def create_app(test_config=None):
     the form will clear and the question will appear at the end of the last page
     of the questions list in the "List" tab.
     """
-    @app.route('/questions', methods=['POST'])
+    @app.route('/api/v1.0/questions', methods=['POST'])
     def create_question():
         body = request.get_json()
         new_question = body['question']
@@ -163,7 +163,7 @@ def create_app(test_config=None):
     only question that include that string within their question.
     Try using the word "title" to start.
     """
-    @app.route('/questions/search', methods=['POST'])
+    @app.route('/api/v1.0/questions/search', methods=['POST'])
     def search_questions():
         search_term = request.get_json()['searchTerm']
         search_result = Question.query.filter(
@@ -184,7 +184,7 @@ def create_app(test_config=None):
     categories in the left column will cause only questions of that
     category to be shown.
     """
-    @app.route('/categories/<int:id>/questions')
+    @app.route('/api/v1.0/categories/<int:id>/questions')
     def get_questions_by_category_id(id):
         questions = Question.query.filter(Question.category == id).all()
         
@@ -206,7 +206,7 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     """
-    @app.route('/quizzes', methods=['POST'])
+    @app.route('/api/v1.0/quizzes', methods=['POST'])
     def get_quizzes():
         body = request.get_json()
         previous_questions = body['previous_questions']
