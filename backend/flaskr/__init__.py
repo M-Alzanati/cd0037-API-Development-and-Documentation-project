@@ -127,9 +127,12 @@ def create_app(test_config=None):
         search_result = Question.query.filter(
             Question.question.ilike(f'%{search_term}%')).all()
 
-        print (search_result)
+        if not search_result:
+            abort(404)
+            
         return jsonify(
             {
+                'success': True,
                 'questions': [question.format() for question in search_result],
                 'totalQuestions': len(search_result),
                 'currentCategory': search_result[0].category,
@@ -144,7 +147,8 @@ def create_app(test_config=None):
         
         return jsonify({
           'questions': [question.format() for question in questions],
-          'totalQuestions': len(questions)
+          'totalQuestions': len(questions),
+          'success': True
         })
     
     @app.route('/api/v1.0/quizzes', methods=['POST'])
@@ -167,11 +171,12 @@ def create_app(test_config=None):
 
         try:   
             return jsonify({
+                'success': True,
                 'question': random.choice([q.format() for q in questions]),
             })
         except:
             print(sys.exc_info)
-            abort(404)
+            abort(422)
     
     @app.errorhandler(404)
     def not_found(error):
