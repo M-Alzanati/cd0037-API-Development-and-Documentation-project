@@ -92,7 +92,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertTrue(data['questions'])
         self.assertTrue(data['total_questions'])
         
-    def test_422_if_book_creation_fails(self):
+    def test_422_if_question_creation_fails(self):
         self.new_question['category'] = 10
         res = self.client().post("/api/v1.0/questions", json=self.new_question)
         data = json.loads(res.data)

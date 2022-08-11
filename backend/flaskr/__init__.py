@@ -108,18 +108,20 @@ def create_app(test_config=None):
                 new_category, 
                 new_difficulty
             )
+            
             question.insert()
             current_questions = paginate_questions(request, Question.query.all())
-        except:
-            print(sys.exc_info())
-            abort(422)
-        finally:
+            
             return jsonify({
                 'success': True,
                 'created': question.id,
                 'questions': current_questions,
                 'total_questions': len(current_questions)
             })
+            
+        except:
+            print(sys.exc_info())
+            abort(422)
 
     @app.route('/api/v1.0/questions/search', methods=['POST'])
     def search_questions():
